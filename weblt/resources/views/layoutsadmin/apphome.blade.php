@@ -31,6 +31,12 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 <script src="{{asset('public/backend/js/jquery2.0.3.min.js')}}"></script>
 <script src="{{asset('public/backend/js/raphael-min.js')}}"></script>
 <script src="{{asset('public/backend/js/morris.js')}}"></script>
+<script src="{{asset('public/ckeditor/ckeditor.js')}}"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="//cdn.ckeditor.com/4.19.1/full/ckeditor.js"></script>
+<script>
+    CKEDITOR.replace("ckeditor_mota")
+</script>
 </head>
 <body>
 <section id="container">
@@ -38,7 +44,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 <header class="header fixed-top clearfix">
 <!--logo start-->
 <div class="brand">
-    <a href="index.html" class="logo">
+    <a href="{{URL::to('/admincp/login')}}" class="logo">
         AdminCP
     </a>
     <div class="sidebar-toggle-box">
@@ -48,22 +54,33 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 <!--logo end-->
 
 <div class="top-nav clearfix">
-   <span style="margin-left:30%; font-size:30px;font-weight:bold; font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;color:blue">Welcome to AdminCP</sapn>
+   <span style="margin-left:30%; font-size:30px;font-weight:bold; font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;color:blue">Welcome to AdminCP</span>
     <!--search & user info start-->
     <ul class="nav pull-right top-menu">
         
-        <li>
-            <input type="text" class="form-control search" placeholder=" Search">
-        </li>
+       
         <!-- user login dropdown start-->
        
                         <!-- Authentication Links -->
-       <li>
-             <a class="nav-link" href="{{ route('admincp.logout') }}">
-                {{ __('Logout') }}
-            </a>
+        <li class="dropdown">
+        <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+        <span class="username">
+        <?php
+            $id_admin = Session()->get('admin_name');
+            if(isset($id_admin))
+            {
+                echo 'Admin: '.$id_admin;
+            }
+            
+        ?>
+        </span>
+                <b class="caret"></b>
+        </a>
+        <ul class="dropdown-menu extended logout">
+                <li><a href="{{ route('admincp.logout') }}"><i class="fa fa-key"></i>Đăng xuất</a></li>
+        </ul>
+    
         </li>
-                   
         <!-- user login dropdown end -->
        
     </ul>
@@ -100,6 +117,17 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                         
                     </ul>
                 </li>
+                <li class="sub-menu">
+                    <a href="javascript:;">
+                        <i class="fa fa-book"></i>
+                        <span>Đơn hàng</span>
+                    </a>
+                    <ul class="sub">
+						
+						<li><a href="{{URL::to('/admincp/donhang')}}">Quản lý đơn hàng</a></li>
+                        
+                    </ul>
+                </li>
                      </ul> 
            </div>
         <!-- sidebar menu end-->
@@ -121,7 +149,11 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 <!--[if lte IE 8]><script language="javascript" type="text/javascript" src="{{asset('public/backend/js/flot-chart/excanvas.min.js')}}"></script><![endif]-->
 <script src="{{asset('public/backend/js/jquery.scrollTo.js')}}"></script>
 <!-- morris JavaScript -->	
-
+<script src="//cdn.ckeditor.com/4.19.1/full/ckeditor.js"></script>
+<script>
+    CKEDITOR.replace("ckeditor_motathem")
+    CKEDITOR.replace("ckeditor_motasua")
+</script>
 	<!-- //calendar -->
 </body>
 </html>

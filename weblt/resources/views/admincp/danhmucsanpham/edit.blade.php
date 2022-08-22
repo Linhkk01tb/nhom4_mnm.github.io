@@ -36,7 +36,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="exampleInputEmail1" class="form-label">Slug danh mục</label>
-                                <input type="text" name="slug_danhmuc" disabled value="{{$danhmucsanpham->slug_danhmuc}}" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Slug danh mục...">
+                                <input type="text" name="slug_danhmuc" value="{{$danhmucsanpham->slug_danhmuc}}" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Slug danh mục...">
                             </div>
                             <div class="form-group">
                                 <label for="exampleInputEmail2" class="form-label">Mô tả danh mục</label>

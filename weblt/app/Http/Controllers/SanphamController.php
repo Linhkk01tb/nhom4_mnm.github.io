@@ -9,7 +9,7 @@ use DB;
 use Session;
 use App\Http\Requests;
 use Illuminate\Support\Facades\Redirect;
-
+use Illuminate\Pagination\LengthAwarePaginator;
 class SanphamController extends Controller
 {
     /**
@@ -23,7 +23,7 @@ class SanphamController extends Controller
         $admin_account  = Session()->get('admin_name');
         if($admin_account){
             //trang danh sach san pham
-            $sanpham = Sanpham::with('Danhmucsanpham')->orderBy('id','DESC')->get();
+            $sanpham = Sanpham::with('Danhmucsanpham')->orderBy('id','DESC')->paginate(4);
             return view('admincp.sanpham.index')->with(compact('sanpham'));
         }
         else{
@@ -264,17 +264,27 @@ class SanphamController extends Controller
     public function chitietsanpham($id_sanpham)
     {
         $danhmuc = DB::table('danhmuc')->where('kichhoat','0')->get();
-        $chitietsp = DB::table('sanpham')->join('danhmuc','sanpham.danhmuc_id','=','danhmuc.id_danhmuc')->where('sanpham.id',$id_sanpham)->get();
-        foreach($chitietsp as $key => $value){
+        $chitietsp = DB::table('sanpham')->where('sanpham.id',$id_sanpham)->get();
+        $chitiet = DB::table('sanpham')->join('danhmuc','sanpham.danhmuc_id','=','danhmuc.id_danhmuc')->where('sanpham.id',$id_sanpham)->get();
+        foreach($chitiet as $value){
             $id_danhmuc  = $value->id_danhmuc;
         }
-        $sp_lienquan = DB::table('sanpham')->join('danhmuc','sanpham.danhmuc_id','=','danhmuc.id_danhmuc')->where('danhmuc.id_danhmuc',$id_danhmuc)->whereNotIn('sanpham.id',[$id_sanpham])->get();
+        $sp_lienquan = DB::table('sanpham')->join('danhmuc','sanpham.danhmuc_id','=','danhmuc.id_danhmuc')->where('danhmuc.id_danhmuc',$id_danhmuc)->where('sanpham.kichhoat','=','0')->whereNotIn('sanpham.id',[$id_sanpham])->limit(3)->get();
         return view('pages.sanpham.show_sanpham')->with('danhmuc',$danhmuc)->with('chitietsp',$chitietsp)->with('sp_lienquan',$sp_lienquan);
     }
     public function hienthi(){
 
-        $danhmuc = DB::table('danhmuc')->where('kichhoat','0')->get();
-        $sanpham = DB::table('sanpham')->where('kichhoat','0')->get();
+        $danhmuc = DB::table('danhmuc')->where('kichhoat','0',)->get();
+        $sanpham = DB::table('sanpham')->where('kichhoat','0')->orderBy('sanpham.id','desc')->paginate(6);
         return view('pages.home')->with('danhmuc',$danhmuc)->with('sanpham',$sanpham);
     }
+    public function timkiem(Request $request){
+
+        $tukhoa = $request->tukhoa;
+
+        $danhmuc = DB::table('danhmuc')->where('kichhoat','0',)->orderBy('danhmuc.id_danhmuc','asc')->get();
+        $sanpham_timkiem = DB::table('sanpham')->where('kichhoat','0')->where('sanpham.tensanpham','like','%'.$tukhoa.'%')->get();
+        return view('pages.sanpham.timkiem')->with('danhmuc',$danhmuc)->with('timkiem',$sanpham_timkiem)->with('tukhoa',$tukhoa);
+    }
+
 }

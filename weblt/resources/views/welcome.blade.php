@@ -28,15 +28,44 @@
 				<div class="row">
 					<div class="col-sm-4">
 						<div class="logo pull-left">
-							<a href="index.html"><img src="{{asset('public/frontend/images/logo.png')}}" alt="" /></a>
+							<img src="{{asset('public/frontend/images/logo1.png')}}" width="139px" height="39px" alt="" />
 						</div>											
 					</div>
 					<div class="col-sm-8">
 						<div class="shop-menu pull-right">
+							
 							<ul class="nav navbar-nav">
-								
-								<li><a href="{{Route('login')}}">Đăng nhập</a></li>
-                                <li><a href="{{Route('register')}}">Đăng ký</a></li>
+							<?php
+								$id_khachhang = Session::get('id_khachhang');
+								$hoten_khachhang = Session::get('hoten_khachhang');
+								if(isset($id_khachhang)){
+							?>
+							<ul class="nav pull-right top-menu">
+							<li class="dropdown">
+							<a data-toggle="dropdown" class="dropdown-toggle" href="#">
+									<span class="username">
+										<?php
+										echo 'Tài khoản: '. $hoten_khachhang;
+										?>
+									</span>
+									<b class="caret"></b>
+								</a>
+								<ul class="dropdown-menu extended logout">
+									<li><a href="{{URL::to('/dangxuat')}}">Đăng xuất</a></li>
+								</ul>
+							</li>
+							</ul>
+							
+							<?php
+								}else
+								{
+							?>
+								<li><a href="{{URL::to('/dangnhapthanhtoan')}}">Đăng nhập</a></li>
+								<li><a href="{{URL::to('/dangky')}}">Đăng ký</a></li>
+								<?php
+								}
+								?>
+                                
 							</ul>
 						</div>
 					</div>
@@ -47,7 +76,7 @@
 		<div class="header-bottom"><!--header-bottom-->
 			<div class="container">
 				<div class="row">
-					<div class="col-sm-9">
+					<div class="col-sm-6">
 						<div class="navbar-header">
 							<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
 								<span class="sr-only">Toggle navigation</span>
@@ -58,21 +87,38 @@
 						</div>
 						<div class="mainmenu pull-left">
 							<ul class="nav navbar-nav collapse navbar-collapse">
-								<li><a href="{{route('pages.home')}}" class="active">Trang chủ</a></li>
-								<li class="dropdown"><a href="#">Sản phẩm </a>
-                                </li> 
+								<li><a href="{{route('pages.home')}}">Trang chủ</a></li>
+								<?php
+									$id_khachhang = Session::get('id_khachhang');
+									$hoten_khachhang = Session::get('hoten_khachhang');
+									if(isset($id_khachhang)){
+									?>
+									<li><a href="{{URL::to('/hienthigiohang')}}">Giỏ hàng</a></li>
+									
+									<?php
+										}else
+										{
+									?>
+									<li><a href="{{URL::to('/dangnhapthanhtoan')}}">Giỏ hàng</a></li>
+									<?php
+										}
+									?>					
 								
-								<li><a href="contact-us.html">Giỏ hàng</a></li>
 								
-								<li><a href="contact-us.html">Liên hệ</a></li>
+								<li><a href="#">Liên hệ</a></li>
 							</ul>
 						</div>
 					</div>
-					<div class="col-sm-3">
-                        <div class="input-group">
-                            <input type="search" class="form-control rounded" placeholder="Search" aria-label="Search" aria-describedby="search-addon" />
-                            <button type="button" class="btn btn-outline-primary">search</button>
-                        </div>
+					<div class="col-sm-6">
+                        
+							<form action="{{URL::to('/timkiem')}}" method="post">
+								{{csrf_field()}}
+							<div class="search-box pull-right" >
+                            <input type="search" name="tukhoa" placeholder="Tìm kiếm sản phẩm" aria-label="Search" aria-describedby="search-addon" />
+                            <input type="submit" name="timkiem" class="btn btn-default btn-sm" value="Tìm kiếm">
+							</div>
+							</form>
+                        
 					</div>
 				</div>
 			</div>
@@ -94,7 +140,7 @@
 							<div class="item active">
 								<div class="col-sm-6">
 									<h1><span>Laptop</span>88</h1>
-									<h2>Free E-Commerce</h2>
+									<h2>Mua hàng trực tuyến miễn phí</h2>
 									<p>Website laptop uy tín hàng đầu Châu Á</p>
 									
 								</div>
@@ -146,21 +192,11 @@
 	
 	<section>
 		<div class="container">
+			
 			<div class="row">
+					@yield('noslider')
 				<div class="col-sm-3">
-					<div class="left-sidebar">
-						<h2>Danh mục sản phẩm</h2>
-						<div class="panel-group category-products" id="accordian"><!--category-productsr-->
-							@foreach($danhmuc as $key => $cate)
-							<div class="panel panel-default">
-								<div class="panel-heading">
-									<h4 class="panel-title"><a href="{{URL::to('/danhmucsanpham/'.$cate->id_danhmuc)}}">{{$cate->tendanhmuc}}</a></h4>
-								</div>
-							</div>
-                            @endforeach
-						</div><!--/category-products-->
-					
-					</div>
+					@yield('slider')
 				</div>
 				<div class="col-sm-9 padding-right">
 					@yield('content')
@@ -174,13 +210,13 @@
 		<div class="footer-top">
 			<div class="container">
 				<div class="row">
-					<div class="col-sm-2">
+					<div class="col-sm-3">
 						<div class="companyinfo">
-							<h2><span>e</span>-shopper</h2>
+							<h2><span>laptop</span>88</h2>
 							<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit,sed do eiusmod tempor</p>
 						</div>
 					</div>
-					<div class="col-sm-7">
+					<div class="col-sm-9">
 						<div class="col-sm-3">
 							<div class="video-gallery text-center">
 								<a href="#">
@@ -249,7 +285,7 @@
 		<div class="footer-widget">
 			<div class="container">
 				<div class="row">
-					<div class="col-sm-2">
+					<div class="col-sm-3">
 						<div class="single-widget">
 							<h2>Service</h2>
 							<ul class="nav nav-pills nav-stacked">
@@ -261,7 +297,7 @@
 							</ul>
 						</div>
 					</div>
-					<div class="col-sm-2">
+					<div class="col-sm-3">
 						<div class="single-widget">
 							<h2>Policies</h2>
 							<ul class="nav nav-pills nav-stacked">

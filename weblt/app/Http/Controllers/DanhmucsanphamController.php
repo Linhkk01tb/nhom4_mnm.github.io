@@ -198,7 +198,7 @@ class DanhmucsanphamController extends Controller
     public function show_danhmuc($id_danhmuc)
     {
         $danhmuc = DB::table('danhmuc')->where('kichhoat','0')->get();
-        $danhmuc_theo_id = DB::table('sanpham')->join('danhmuc','sanpham.danhmuc_id','=','danhmuc.id_danhmuc')->where('danhmuc.id_danhmuc',$id_danhmuc)->get();
+        $danhmuc_theo_id = DB::table('sanpham')->join('danhmuc','sanpham.danhmuc_id','=','danhmuc.id_danhmuc')->where('danhmuc.id_danhmuc',$id_danhmuc)->paginate(6);
         $danhmuc_tenhienthi = DB::table('danhmuc')->where('danhmuc.id_danhmuc',$id_danhmuc)->limit(1)->get();
         return view('pages.danhmuc.show_danhmuc')->with('danhmuc',$danhmuc)->with('danhmuc_theo_id',$danhmuc_theo_id)->with('danhmuc_tenhienthi',$danhmuc_tenhienthi);
     }

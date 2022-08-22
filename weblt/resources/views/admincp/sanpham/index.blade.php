@@ -40,11 +40,11 @@
                         <tbody>
                             @foreach($sanpham as $key => $item)
                             <tr>
-                                <th scope="row">{{$key}}</th>
+                                <th scope="row">{{$key+1}}</th>
                                 <td>{{$item->tensanpham}}</td>
                                 <td>{{$item->slug_sanpham}}</td>
                                 <td><img src="{{asset('public/upload/sanpham/'.$item->hinhanh)}}" width="200" height="160"></td>
-                                <td>{{$item->mota}}</td>
+                                <td>{!!$item->mota!!}</td>
                                 <td>{{$item->soluong}}</td>
                                 <td>{{$item->dongia}}</td>
                                 <td>{{$item->danhmucsanpham->tendanhmuc}}</td>
@@ -63,8 +63,18 @@
                             @endforeach
                         </tbody>
                       </table>
-               
-        </div>
-    </div>
-</div>
+                      <div class="row">
+        
+                            <div class="col-sm-5 text-center">
+                            
+                            </div>
+                            <div class="col-sm-6 text-right text-center-xs">                
+                            <ul class="pagination pagination-sm m-t-none m-b-none">
+                                <nav aria-label="Page navigation">{!!$sanpham->links()!!}</nav>
+                            </ul>
+                            </div>
+                        </div>
+                            </div>
+                        </div>
+                    </div>
 @endsection

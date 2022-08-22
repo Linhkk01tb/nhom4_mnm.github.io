@@ -35,12 +35,12 @@
                             </div>
                             <div class="form-group">
                                 <label for="exampleInputEmail1" class="form-label">Slug sản phẩm</label>
-                                <input type="text" name="slug_sanpham" value="{{$sanpham->slug_sanpham}}" disabled class="form-control" id="convert_slug" placeholder="Slug sản phẩm...">
+                                <input type="text" name="slug_sanpham" value="{{$sanpham->slug_sanpham}}" class="form-control" id="convert_slug" placeholder="Slug sản phẩm...">
                             </div>
                             <div class="form-group">
                                 <label for="exampleInputEmail2" class="form-label">Mô tả sản phẩm</label>
-                                <textarea class="form-control" name="mota" rows="5" style="resize: none">
-                                    {{$sanpham->mota}}
+                                <textarea class="form-control" name="mota" rows="5" style="resize: none" id="ckeditor_motasua">
+                                    {!!$sanpham->mota!!}
                                 </textarea>
                             </div>
                             <div class="form-group">
